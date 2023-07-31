@@ -4,7 +4,7 @@
     "outDir": "./lib",
     "rootDir": ".",
     "noImplicitAny": false,
-    "resolveJsonModule": false
+    "resolveJsonModule": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

@@ -1,70 +1,62 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Text, Image, View, PixelRatio, TouchableOpacity } from 'react-native';
-import { Api } from '@rnv/renative';
-import {
-  ICON_LOGO,
-  CONFIG,
-  ThemeProvider,
-  ThemeContext,
-  testProps,
-} from '../config';
-// import packageJson from '../../package.json';
+import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { shallow } from 'zustand/shallow';
+// import {useTVEventHandler} from 'react-native';
+import { enableScreens } from 'react-native-screens';
+import { useStore } from '../stores/store';
+import Navigation from '../navigation';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Text, View } from 'react-native';
 
-import * as Screens from '../screens';
+function App(): JSX.Element {
+  const [lastEventType, setLastEventType] = React.useState('');
 
-const App = () => <Screens.HomeScreen />;
+  const [queryClient] = useState(() => new QueryClient());
+  enableScreens(true);
+  const [initializing, setInitializing] = useState(true);
+  // const { checkUser, user } = useStore(
+  //   (state) => ({
+  //     checkUser: state.checkUser,
+  //     user: state.authUser,
+  //   }),
+  //   shallow,
+  // );
 
-// const AppThemed = () => {
-//   const { theme, toggle }: any = useContext(ThemeContext);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       await checkUser();
+  //       setInitializing(false);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, [checkUser]);
 
-//   const [pixelRatio, setPixelRatio] = useState(1);
-//   const [fontScale, setFontScale] = useState(1);
+  // const myTVEventHandler = (evt: {eventType: React.SetStateAction<string>}) => {
+  //   setLastEventType(evt.eventType);
+  //   console.log(evt, 'EVENT');
+  // };
+  // console.log(lastEventType);
+  // useTVEventHandler(myTVEventHandler);
 
-//   useEffect(() => {
-//     setPixelRatio(PixelRatio.get());
-//     setFontScale(PixelRatio.getFontScale());
-//   }, []);
-
-//   return (
-//     <View style={theme.styles.container}>
-//       <Image
-//         style={theme.styles.image}
-//         source={ICON_LOGO}
-//         {...testProps('template-starter-home-screen-renative-image')}
-//       />
-//       <Text
-//         style={theme.styles.textH2}
-//         {...testProps('template-starter-home-screen-welcome-message-text')}
-//       >
-//         {CONFIG.welcomeMessage}
-//       </Text>
-//       <Text
-//         style={theme.styles.textH2}
-//         {...testProps('template-starter-home-screen-version-number-text')}
-//       >
-//         v {packageJson.version}
-//       </Text>
-//       <Text style={theme.styles.textH3}>
-//         {`platform: ${Api.platform}, factor: ${Api.formFactor}, engine: ${Api.engine}`}
-//       </Text>
-//       <Text style={theme.styles.textH3}>
-//         {
-//           //@ts-ignore
-//           `hermes: ${global.HermesInternal === undefined ? 'no' : 'yes'}`
-//         }
-//       </Text>
-//       <Text
-//         style={theme.styles.textH3}
-//       >{`pixelRatio: ${pixelRatio}, ${fontScale}`}</Text>
-//       <TouchableOpacity
-//         onPress={toggle}
-//         style={theme.styles.button}
-//         {...testProps('template-starter-home-screen-try-my-button')}
-//       >
-//         <Text style={theme.styles.buttonText}>Try me!!!</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
+  // if (initializing) {
+  //   return <></>;
+  // }
+  return (
+    // <View>
+    //   <Text style={{ color: 'white' }}>Hello world</Text>
+    // </View>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <Navigation />
+        {/* <View>
+          <Text style={{ color: 'white' }}>Hello world</Text>
+        </View> */}
+      </SafeAreaProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

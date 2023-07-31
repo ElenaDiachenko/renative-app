@@ -1,5 +1,5 @@
-import React, {useReducer, useEffect} from 'react';
-import {shallow} from 'zustand/shallow';
+import React, { useReducer, useEffect } from 'react';
+import { shallow } from 'zustand/shallow';
 import {
   View,
   Text,
@@ -7,14 +7,13 @@ import {
   ActivityIndicator,
   StyleSheet,
   Alert,
-  TVFocusGuideView,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useStore} from '../stores/store';
-import {reducer, validateInputField} from '../utils';
-import {palette} from '../styles';
-import {AuthInput} from './ui';
-import {AuthStackScreenProps} from '../navigation/types';
+import { useNavigation } from '@react-navigation/native';
+import { useStore } from '../stores/store';
+import { reducer, validateInputField } from '../utils';
+import { palette } from '../styles';
+import { AuthInput } from './ui';
+import { AuthStackScreenProps } from '../navigation/types';
 
 const initialState: reducer.State = {
   email: '',
@@ -27,9 +26,9 @@ const LoginForm = () => {
     useNavigation<AuthStackScreenProps<'Login'>['navigation']>();
   const [state, dispatch] = useReducer(reducer.reducer, initialState);
 
-  const {loginUser, isLoading, error} = useStore(
+  const { loginUser, isLoading, error } = useStore(
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    state => ({
+    (state) => ({
       isLoading: state.loading,
       loginUser: state.loginUser,
       error: state.error,
@@ -45,19 +44,19 @@ const LoginForm = () => {
 
   const handleFieldChange = (name: string, value: string) => {
     const validateError = validateInputField(name, value);
-    dispatch({type: 'SET_FIELD', field: name, value});
-    dispatch({type: 'SET_ERRORS', errors: {[name]: validateError}});
+    dispatch({ type: 'SET_FIELD', field: name, value });
+    dispatch({ type: 'SET_ERRORS', errors: { [name]: validateError } });
   };
 
   const handleSubmit = () => {
-    const {email, password} = state;
+    const { email, password } = state;
 
     const emailError = validateInputField('email', email);
     const passwordError = validateInputField('password', password);
 
     dispatch({
       type: 'SET_ERRORS',
-      errors: {email: emailError, password: passwordError},
+      errors: { email: emailError, password: passwordError },
     });
 
     if (!emailError && !passwordError) {
@@ -69,22 +68,22 @@ const LoginForm = () => {
     }
   };
 
-  const {email, password, errors} = state;
+  const { email, password, errors } = state;
 
   return (
-    <TVFocusGuideView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>Log In</Text>
       <AuthInput
         placeholder="Email"
         value={email}
-        onChangeText={value => handleFieldChange('email', value)}
+        onChangeText={(value) => handleFieldChange('email', value)}
         error={errors.email}
       />
       <AuthInput
         placeholder="Password"
         value={password}
         secureTextEntry={true}
-        onChangeText={value => handleFieldChange('password', value)}
+        onChangeText={(value) => handleFieldChange('password', value)}
         error={errors.password}
       />
 
@@ -92,7 +91,8 @@ const LoginForm = () => {
         onPress={handleSubmit}
         disabled={isLoading}
         activeOpacity={0.7}
-        style={styles.button}>
+        style={styles.button}
+      >
         {isLoading ? (
           <ActivityIndicator size={25} color={palette.whiteColor} />
         ) : (
@@ -103,11 +103,12 @@ const LoginForm = () => {
         <Text style={styles.text}>Want to create a new account?</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
-          activeOpacity={0.7}>
+          activeOpacity={0.7}
+        >
           <Text style={styles.linkText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-    </TVFocusGuideView>
+    </View>
   );
 };
 

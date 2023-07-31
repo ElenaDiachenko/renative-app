@@ -1,16 +1,16 @@
-import React, {useState, FC, useEffect} from 'react';
-import {Text, StyleSheet, TVFocusGuideView} from 'react-native';
-import {shallow} from 'zustand/shallow';
-import {useStore} from '../stores/store';
-import {CustomHeader, Focused, GenreList} from './ui';
+import React, { useState, FC, useEffect } from 'react';
+import { Text, StyleSheet, View } from 'react-native';
+import { shallow } from 'zustand/shallow';
+import { useStore } from '../stores/store';
+import { CustomHeader, Focused, GenreList } from './ui';
 import Search from './Search';
-import {commonStyles, palette} from '../styles';
+import { commonStyles, palette } from '../styles';
 import Sort from './ui/Sort';
-import {constants} from '../utils';
-import {useRoute} from '@react-navigation/native';
-import {AppStackScreenProps} from '../navigation/types';
+import { constants } from '../utils';
+import { useRoute } from '@react-navigation/native';
+import { AppStackScreenProps } from '../navigation/types';
 import Feather from 'react-native-vector-icons/Feather';
-import {useFocusState} from '../hooks';
+import { useFocusState } from '../hooks';
 
 type ActionSectionProps = {};
 const initialQuery = {
@@ -22,7 +22,7 @@ export type InitialQueryType = typeof initialQuery;
 const ActionSection: FC<ActionSectionProps> = () => {
   const [isFocusedMenu, handleFocusChangeMenu] = useFocusState();
 
-  const {name: route} = useRoute<AppStackScreenProps<'Home'>['route']>();
+  const { name: route } = useRoute<AppStackScreenProps<'Home'>['route']>();
   const [query, setQuery] = useState(initialQuery);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,7 +32,7 @@ const ActionSection: FC<ActionSectionProps> = () => {
     setLibrarySearchParameters,
     librarySearchParameters,
   } = useStore(
-    state => ({
+    (state) => ({
       searchParameters: state.searchParameters,
       setSearchParameters: state.setSearchParameters,
       librarySearchParameters: state.librarySearchParameters,
@@ -42,7 +42,7 @@ const ActionSection: FC<ActionSectionProps> = () => {
   );
 
   const handleFilters = () => {
-    setIsFilterOpen(prev => !prev);
+    setIsFilterOpen((prev) => !prev);
   };
 
   const handleSearch = (searchQuery: string) => {
@@ -72,7 +72,11 @@ const ActionSection: FC<ActionSectionProps> = () => {
   };
 
   const handleSort = (newSortState: typeof sortState) => {
-    const updatedSearchParams = {...searchParameters, ...newSortState, page: 1};
+    const updatedSearchParams = {
+      ...searchParameters,
+      ...newSortState,
+      page: 1,
+    };
     setSearchParameters(updatedSearchParams);
     handleFilters();
   };
@@ -87,7 +91,9 @@ const ActionSection: FC<ActionSectionProps> = () => {
         ? searchParameters?.query || ''
         : librarySearchParameters?.query || '';
 
-    const isGenre = constants.genreList.some(item => item.value === queryValue);
+    const isGenre = constants.genreList.some(
+      (item) => item.value === queryValue,
+    );
     const updatedQuery = {
       genre: isGenre ? queryValue : '',
       keyword: isGenre ? '' : queryValue,
@@ -97,14 +103,13 @@ const ActionSection: FC<ActionSectionProps> = () => {
   }, [librarySearchParameters, searchParameters, route]);
 
   return (
-    <TVFocusGuideView
-      style={[!isFilterOpen ? styles.containerRow : styles.container]}
-      autoFocus>
+    <View style={[!isFilterOpen ? styles.containerRow : styles.container]}>
       <Focused
         handlePress={handleFilters}
-        style={{...styles.menu}}
+        style={{ ...styles.menu }}
         onFocus={() => handleFocusChangeMenu(true)}
-        onBlur={() => handleFocusChangeMenu(false)}>
+        onBlur={() => handleFocusChangeMenu(false)}
+      >
         <Feather
           name="menu"
           size={26}
@@ -114,11 +119,11 @@ const ActionSection: FC<ActionSectionProps> = () => {
 
       {isFilterOpen ? (
         <>
-          <TVFocusGuideView style={{width: '100%'}} autoFocus>
+          <View style={{ width: '100%' }}>
             <GenreList query={query.genre} handleChange={handleSearch} />
-          </TVFocusGuideView>
+          </View>
 
-          <TVFocusGuideView style={styles.innerContainer} autoFocus>
+          <View style={styles.innerContainer}>
             <Search
               handleChange={handleSearch}
               setMessage={setErrorMessage}
@@ -131,14 +136,14 @@ const ActionSection: FC<ActionSectionProps> = () => {
                 handleChange={handleSort}
               />
             ) : null}
-          </TVFocusGuideView>
+          </View>
 
-          <Text style={{...commonStyles.text}}>{errorMessage}</Text>
+          <Text style={{ ...commonStyles.text }}>{errorMessage}</Text>
         </>
       ) : (
         <CustomHeader />
       )}
-    </TVFocusGuideView>
+    </View>
   );
 };
 

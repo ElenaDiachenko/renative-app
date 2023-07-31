@@ -1,17 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { palette } from '../styles';
 
 type Props = {};
 
-const HomeScreen = (props: Props) => {
+const FiltersScreen = (props: Props) => {
   return (
     <View>
-      <Text style={{ color: palette.whiteColor }}>HomeScreen</Text>
+      <Text>FiltersScreen</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default FiltersScreen;
 
 const styles = StyleSheet.create({});
