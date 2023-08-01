@@ -40,6 +40,9 @@ export type HomeDrawerScreenProps<T extends keyof DrawerParamList> =
     route: RouteProp<DrawerParamList, T>;
   };
 
+// export type HomeDrawerScreenProps<T extends keyof DrawerParamList> =
+//   DrawerNavigationProp<DrawerParamList, T>;
+
 ////////////////
 
 export type AuthStackParamList = {
