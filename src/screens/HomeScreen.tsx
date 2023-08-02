@@ -3,27 +3,15 @@ import React from 'react';
 import { palette } from '../styles';
 import { movieRequests } from '../API';
 import { useQuery } from '@tanstack/react-query';
-import { getSerializedSearchParameters } from '../utils';
+
+import { initialState } from '../stores/createMovieSlice';
 
 type Props = {};
 
 const HomeScreen = (props: Props) => {
-  const searchParameters = {
-    page: 1,
-    limit: 10,
-    query: '',
-    sort: 'rating',
-    order: '1',
-  };
-
-  // const serializedSearchParameters =
-  //   getSerializedSearchParameters(searchParameters);
-
-  // const { data, isLoading, isError, isSuccess } = useQuery(
-  //   ['movies', serializedSearchParameters],
-  //   () => movieRequests.fetchMovies(searchParameters),
+  // const { data, isLoading, isError, isSuccess } = useQuery(['movies'], () =>
+  //   movieRequests.fetchMovies(initialState),
   // );
-
   // console.log(data, 'MOVIES');
   return (
     <View>

@@ -17,14 +17,12 @@ const Drawer = createDrawerNavigator<DrawerParamList>();
 const MainStack = createStackNavigator<HomeStackNavigatorParamList>();
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
-const AuthNav = () => {
-  return (
-    <AuthStack.Navigator>
-      <AuthStack.Screen name="Login" component={Screens.LoginScreen} />
-      <AuthStack.Screen name="Register" component={Screens.RegisterScreen} />
-    </AuthStack.Navigator>
-  );
-};
+const AuthNav = () => (
+  <AuthStack.Navigator>
+    <AuthStack.Screen name="Login" component={Screens.LoginScreen} />
+    <AuthStack.Screen name="Register" component={Screens.RegisterScreen} />
+  </AuthStack.Navigator>
+);
 
 const DrawerNav = () => {
   return (
@@ -42,31 +40,36 @@ const DrawerNav = () => {
   );
 };
 
+const MainNav = () => (
+  <MainStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <MainStack.Screen name="Main" component={DrawerNav} />
+    <MainStack.Screen name="Details" component={Screens.DetailsScreen} />
+    <MainStack.Screen name="Video" component={Screens.VideoScreen} />
+  </MainStack.Navigator>
+);
+
 const Navigation = () => {
   const user = true;
 
-  // const { user } = useStore(
-  //   (state) => ({
-  //     user: state.authUser,
-  //   }),
-  //   shallow,
-  // );
+  // console.log(typeof useStore, ' => typeof useStore ( navigation/index.tsx )'); // that shows function
+  // console.log(useStore, ' USESTORE ( navigation/index.tsx )'); // [Function useBoundStore]-
+
+  // const { authUser } = useStore((state) => {
+  //   console.log(state, 'STATE');
+  //   return {
+  //     authUser: state.authUser,
+  //   };
+  // }, shallow);
+
+  // console.log(authUser, 'AUTHUSER');
 
   return (
     <NavigationContainer>
-      {user ? (
-        <MainStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <MainStack.Screen name="Main" component={DrawerNav} />
-          <MainStack.Screen name="Details" component={Screens.DetailsScreen} />
-          <MainStack.Screen name="Video" component={Screens.VideoScreen} />
-        </MainStack.Navigator>
-      ) : (
-        <AuthNav />
-      )}
+      {user ? <MainNav /> : <AuthNav />}
     </NavigationContainer>
   );
 };
