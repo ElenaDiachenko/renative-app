@@ -1,6 +1,7 @@
 {
   "extends": "@flexn/typescript-config/tsconfig.app.json",
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "./lib",
     "rootDir": ".",
     "noImplicitAny": false,

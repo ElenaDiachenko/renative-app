@@ -12,11 +12,16 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { Text, View } from 'react-native';
+import { shallow } from 'zustand/shallow';
+import { useStore } from '../stores/store';
 
 function App(): JSX.Element {
   const [lastEventType, setLastEventType] = React.useState('');
 
-  const [queryClient] = useState(() => new QueryClient());
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: 2 } },
+  });
+
   console.log(queryClient, ' => QUERYCLIENT (app/index.tsx)');
 
   enableScreens(true);
